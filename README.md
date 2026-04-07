@@ -1,7 +1,6 @@
 # Marketing Analytics — dbt Project
 
 Multi-channel paid ads data model for Facebook, Google, and TikTok.  
-Built as part of a Senior Marketing Data Analyst technical assignment.
 
 ## Architecture
 
@@ -70,28 +69,10 @@ See `analyses/qa_checks.sql` for:
 - CTR sanity (must be ≤ 1)
 - Date coverage and gap detection
 
-## Setup
+## Note on dbt
 
-```bash
-# Install dbt-bigquery
-pip install dbt-bigquery
+This project follows dbt conventions (layered models, schema.yml documentation,
+YAML tests) but SQL was executed directly in BigQuery for this assignment.
 
-# Configure profiles.yml with your GCP project credentials
-dbt debug
-
-# Run staging models
-dbt run --select staging
-
-# Run mart
-dbt run --select marts
-
-# Run schema tests
-dbt test
-
-# Full run
-dbt run && dbt test
-```
-
-## BigQuery Project
-
-`marketing-test-task.marketing_assignment`
+To deploy with dbt-bigquery, configure `profiles.yml` with your GCP credentials
+and run `dbt run && dbt test`.
