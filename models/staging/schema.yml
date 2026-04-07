@@ -1,0 +1,75 @@
+version: 2
+
+models:
+  - name: stg_facebook_ads
+    description: >
+      Staging model for Facebook Ads. Renames ad_set_id → ad_group_id,
+      spend → cost. NULLs added for metrics not available on this platform
+      (conversion_value, video_completions, likes, shares, comments).
+    columns:
+      - name: date
+        description: Event date
+        tests: [not_null]
+      - name: platform
+        description: Always 'facebook'
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['facebook']
+      - name: campaign_id
+        tests: [not_null]
+      - name: impressions
+        tests: [not_null]
+      - name: cost
+        description: Ad spend in account currency (renamed from spend)
+        tests: [not_null]
+
+  - name: stg_google_ads
+    description: >
+      Staging model for Google Ads. NULLs added for metrics not available
+      on this platform (video_views, video_completions, reach, frequency,
+      engagement_rate, likes, shares, comments).
+      Only platform with conversion_value (revenue data).
+    columns:
+      - name: date
+        description: Event date
+        tests: [not_null]
+      - name: platform
+        description: Always 'google'
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['google']
+      - name: campaign_id
+        tests: [not_null]
+      - name: impressions
+        tests: [not_null]
+      - name: cost
+        tests: [not_null]
+      - name: conversion_value
+        description: Revenue attributed to conversions. Only populated for Google.
+
+  - name: stg_tiktok_ads
+    description: >
+      Staging model for TikTok Ads. Renames adgroup_id → ad_group_id,
+      adgroup_name → ad_group_name, video_watch_100 → video_completions.
+      NULLs added for metrics not available on this platform
+      (conversion_value, reach, frequency, engagement_rate).
+    columns:
+      - name: date
+        description: Event date
+        tests: [not_null]
+      - name: platform
+        description: Always 'tiktok'
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['tiktok']
+      - name: campaign_id
+        tests: [not_null]
+      - name: impressions
+        tests: [not_null]
+      - name: cost
+        tests: [not_null]
+      - name: video_completions
+        description: Users who watched 100% of the video (renamed from video_watch_100)

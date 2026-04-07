@@ -1,0 +1,128 @@
+version: 2
+
+models:
+  - name: mart_paid_ads_performance
+    description: >
+      Unified daily paid advertising performance across Facebook, Google, and TikTok.
+      Grain: one row per platform × campaign × ad_group × date.
+
+      Derived metrics (CTR, CPC, CPM, CPA, ROAS, VTR, VCR) are computed at this
+      layer using SAFE_DIVIDE to ensure consistent definitions across all downstream
+      BI consumers and avoid divide-by-zero errors.
+
+      Platform-specific fields that are unavailable on other platforms are NULL.
+      For example: conversion_value is Google-only, video_completions is TikTok-only,
+      reach and frequency are Facebook-only.
+    columns:
+      - name: date
+        description: Event date (UTC)
+        tests: [not_null]
+
+      - name: platform
+        description: "Ad platform. Values: facebook, google, tiktok"
+        tests:
+          - not_null
+          - accepted_values:
+              values: ['facebook', 'google', 'tiktok']
+
+      - name: campaign_id
+        tests: [not_null]
+
+      - name: campaign_name
+        tests: [not_null]
+
+      - name: ad_group_id
+        description: Ad group / ad set identifier (normalized across platforms)
+        tests: [not_null]
+
+      - name: ad_group_name
+        description: Ad group / ad set name (normalized across platforms)
+
+      - name: impressions
+        description: Total ad impressions served
+        tests: [not_null]
+
+      - name: clicks
+        description: Total clicks on ads
+        tests: [not_null]
+
+      - name: cost
+        description: Total ad spend in account currency
+        tests: [not_null]
+
+      - name: conversions
+        description: Total conversion events attributed to ads
+
+      - name: conversion_value
+        description: >
+          Revenue attributed to conversions.
+          Populated for Google only; NULL for Facebook and TikTok.
+
+      - name: video_views
+        description: >
+          Total video views.
+          Populated for Facebook and TikTok; NULL for Google.
+
+      - name: video_completions
+        description: >
+          Users who watched 100% of the video.
+          Populated for TikTok only (video_watch_100); NULL for Facebook and Google.
+
+      - name: reach
+        description: >
+          Unique users reached.
+          Populated for Facebook only; NULL for Google and TikTok.
+
+      - name: frequency
+        description: >
+          Average number of times a user saw the ad.
+          Populated for Facebook only; NULL for Google and TikTok.
+
+      - name: engagement_rate
+        description: >
+          Engagement rate (interactions / impressions).
+          Populated for Facebook only; NULL for Google and TikTok.
+
+      - name: likes
+        description: >
+          Post likes / reactions.
+          Populated for TikTok only; NULL for Facebook and Google.
+
+      - name: shares
+        description: >
+          Post shares.
+          Populated for TikTok only; NULL for Facebook and Google.
+
+      - name: comments
+        description: >
+          Post comments.
+          Populated for TikTok only; NULL for Facebook and Google.
+
+      - name: ctr
+        description: Click-through rate = clicks / impressions
+
+      - name: cpc
+        description: Cost per click = cost / clicks
+
+      - name: cpm
+        description: Cost per 1,000 impressions = (cost / impressions) × 1000
+
+      - name: cpa
+        description: >
+          Cost per acquisition = cost / conversions.
+          NULL when conversions = 0 (SAFE_DIVIDE).
+
+      - name: roas
+        description: >
+          Return on ad spend = conversion_value / cost.
+          Meaningful for Google only; NULL for other platforms.
+
+      - name: vtr
+        description: >
+          View-through rate = video_views / impressions.
+          Populated for Facebook and TikTok; NULL for Google.
+
+      - name: vcr
+        description: >
+          Video completion rate = video_completions / video_views.
+          Populated for TikTok only; NULL for Facebook and Google.
