@@ -4,9 +4,7 @@
 -- Grain:   one row per platform × campaign × ad_group × date
 -- Sources: stg_facebook_ads, stg_google_ads, stg_tiktok_ads
 --
--- Design decision: all derived metrics (CTR, CPA, ROAS, VTR, VCR) are
--- computed here at the mart layer — not in the BI tool — to ensure a
--- single definition is used across all dashboards and reports.
+-- Design decision: all derived metrics (CTR, CPA, ROAS, VTR, VCR) are computed here at the mart layer — not in the BI tool — to ensure a single definition is used across all dashboards and reports.
 -- SAFE_DIVIDE is used throughout to avoid divide-by-zero errors.
 
 WITH unioned AS (
