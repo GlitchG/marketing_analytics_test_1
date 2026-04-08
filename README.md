@@ -76,3 +76,6 @@ YAML tests) but SQL was executed directly in BigQuery for this assignment.
 
 To deploy with dbt-bigquery, configure `profiles.yml` with your GCP credentials
 and run `dbt run && dbt test`.
+
+## Sample of dashboard
+[Click here](https://lookerstudio.google.com/reporting/ffbf5968-452d-40d8-bba7-1f54b5bcd0cf)
