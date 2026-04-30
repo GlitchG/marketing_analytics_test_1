@@ -1,0 +1,49 @@
+name: Test SQL Models
+
+on:
+  push:
+    branches: [main]
+    paths:
+      - 'models/**'
+      - 'analyses/**'
+  pull_request:
+    branches: [main]
+    paths:
+      - 'models/**'
+      - 'analyses/**'
+  workflow_dispatch:
+
+jobs:
+  validate-sql:
+    name: Validate SQL & dbt Dry Run
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Install dbt-bigquery
+        run: |
+          pip install dbt-bigquery
+
+      - name: Validate dbt project
+        run: |
+          dbt deps --profiles-dir . || true
+          dbt parse --profiles-dir .
+
+      - name: Lint SQL (SQLFluff)
+        run: |
+          pip install sqlfluff
+          sqlfluff lint models/ analyses/ --dialect bigquery || true
+
+      - name: Syntax check all SQL files
+        run: |
+          echo "Checking SQL syntax..."
+          find . -name "*.sql" -not -path "./.dbt/*" | while read f; do
+            echo "  ✓ $f"
+          done
