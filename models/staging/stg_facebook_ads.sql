@@ -29,4 +29,4 @@ SELECT
   CAST(NULL AS INT64)                AS shares,
   CAST(NULL AS INT64)                AS comments
 
-FROM `marketing-test-task.marketing_assignment.facebook_ads`
+FROM {{ source('raw', 'facebook_ads') }}

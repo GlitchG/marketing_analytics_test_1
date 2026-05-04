@@ -1,0 +1,13 @@
+version: 2
+
+sources:
+  - name: raw
+    database: marketing-test-task
+    schema: marketing_assignment
+    tables:
+      - name: facebook_ads
+        description: Raw Facebook Ads export
+      - name: google_ads
+        description: Raw Google Ads export
+      - name: tiktok_ads
+        description: Raw TikTok Ads export

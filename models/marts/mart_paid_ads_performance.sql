@@ -8,11 +8,11 @@
 -- SAFE_DIVIDE is used throughout to avoid divide-by-zero errors.
 
 WITH unioned AS (
-  SELECT * FROM `marketing-test-task.marketing_assignment.stg_facebook_ads`
+  SELECT * FROM {{ ref('stg_facebook_ads') }}
   UNION ALL
-  SELECT * FROM `marketing-test-task.marketing_assignment.stg_google_ads`
+  SELECT * FROM {{ ref('stg_google_ads') }}
   UNION ALL
-  SELECT * FROM `marketing-test-task.marketing_assignment.stg_tiktok_ads`
+  SELECT * FROM {{ ref('stg_tiktok_ads') }}
 )
 
 SELECT

@@ -29,4 +29,4 @@ SELECT
   CAST(NULL AS INT64)                AS shares,
   CAST(NULL AS INT64)                AS comments
 
-FROM `marketing-test-task.marketing_assignment.google_ads`
+FROM {{ source('raw', 'google_ads') }}

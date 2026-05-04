@@ -29,4 +29,4 @@ SELECT
   shares,
   comments
 
-FROM `marketing-test-task.marketing_assignment.tiktok_ads`
+FROM {{ source('raw', 'tiktok_ads') }}
