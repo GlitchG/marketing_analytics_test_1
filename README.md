@@ -51,3 +51,17 @@ dbt docs generate && dbt docs serve
 - [bigquery-meridian-mmm](https://github.com/GlitchG/bigquery-meridian-mmm) — Bayesian MMM that consumes mart output
 
 MIT
+
+
+## Why dbt?
+
+I use **Dataform** for GCP-native clients (see [ga4-bigquery-incremental](https://github.com/GlitchG/ga4-bigquery-incremental) and [ga4-attribution-models](https://github.com/GlitchG/ga4-attribution-models)). This repo uses **dbt** because it was built for a client with an existing dbt stack and Airflow orchestration. The SQL patterns are transferable — the main differences are config syntax (`{{ config(...) }}` vs `config { ... }`) and scheduling (Airflow vs Dataform Workflows).
+
+## Related
+
+- [ga4-attribution-models](https://github.com/GlitchG/ga4-attribution-models) — multi-touch attribution in BigQuery/Dataform
+- [ga4-bigquery-incremental](https://github.com/GlitchG/ga4-bigquery-incremental) — GA4 incremental refresh patterns
+- [bigquery-meridian-mmm](https://github.com/GlitchG/bigquery-meridian-mmm) — Bayesian MMM
+- [landing-page-ab-testing](https://github.com/GlitchG/landing-page-ab-testing) — GA4 A/B testing
+- [cohort-log-predict](https://github.com/GlitchG/cohort-log-predict) — cohort retention prediction
+- [receipt-sorter](https://github.com/GlitchG/receipt-sorter) — AI receipt classification
