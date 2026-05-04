@@ -1,0 +1,11 @@
+marketing_analytics:
+  target: dev
+  outputs:
+    dev:
+      type: bigquery
+      method: oauth
+      project: dummy-project
+      dataset: dummy_dataset
+      threads: 1
+      timeout_seconds: 300
+      location: US
